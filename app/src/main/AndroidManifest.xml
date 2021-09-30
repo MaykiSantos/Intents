@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.mayki.intents">
 
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +10,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Intents">
+        <activity
+            android:name=".ActionsActivity"
+            android:exported="true">
+            <intent-filter> <!--define que esta activit tem a intenção de tratar  a ação OPEN_ACTION_ACTYVITY-->
+                <action android:name="OPEN_ACTION_ACTYVITY"/> <!--valor constatnt que define o nome da ação-->
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">

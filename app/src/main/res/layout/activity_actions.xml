@@ -4,32 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ActionsActivity">
 
     <include
         android:id="@+id/mainTb"
         layout="@layout/toolbar_app"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/parameterTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Parâmetro"
-        android:textSize="25sp"
         android:gravity="center_horizontal"
+        android:text="Aberta pela ação OPEN_ACTION_ACTIVITY"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/mainTb" />
-
-    <EditText
-        android:id="@+id/parameterEt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/parameterTv" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
