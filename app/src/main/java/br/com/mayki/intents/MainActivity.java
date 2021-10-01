@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.PersistableBundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,10 +23,13 @@ import java.util.regex.Pattern;
 
 import br.com.mayki.intents.databinding.ActivityMainBinding;
 
+
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding activityMainBinding;
     private ActivityResultLauncher<String> requisicaoPermissoesActivityResultLauncher;
+    private ActivityResultLauncher<Intent> selecionarImagemActivityResultLauncher;
+    private ActivityResultLauncher<Intent> escolherAplicativoActivityResultyLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,23 @@ public class MainActivity extends AppCompatActivity {
                 requisitaPermissaoLigacao();
             }
         });
+
+        selecionarImagemActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), resultado->{
+            if(resultado.getResultCode() == RESULT_OK){
+                Uri referenciaImagemUri = resultado.getData().getData();
+                activityMainBinding.imagemLocal.setImageURI(referenciaImagemUri); //carrega imagem dentro da aplicação
+                startActivity(new Intent(Intent.ACTION_VIEW, referenciaImagemUri));
+            }
+        });
+
+        escolherAplicativoActivityResultyLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), resultado->{
+            if(resultado.getResultCode() == RESULT_OK){
+                Uri referenciaImagemUri = resultado.getData().getData();
+                startActivity(new Intent(Intent.ACTION_VIEW, referenciaImagemUri));
+            }
+        });
+
+
 
 
     }
@@ -89,8 +110,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(discagemIntent);
                 return true;
             case R.id.pickMi:
+                selecionarImagemActivityResultLauncher.launch(preparaPegarImagemIntent());
                 return true;
             case R.id.chooserMi:
+                Intent escolherAplicativoIntent = new Intent(Intent.ACTION_CHOOSER);
+                escolherAplicativoIntent.putExtra(Intent.EXTRA_TITLE, "Escolha um aplicativo para imagens");
+                escolherAplicativoIntent.putExtra(Intent.EXTRA_INTENT, preparaPegarImagemIntent());
+                escolherAplicativoActivityResultyLauncher.launch(escolherAplicativoIntent);
+
                 return true;
             case R.id.exitMi:
                 finish();
@@ -107,6 +134,11 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return false;
         }
+    }
+
+    private Intent preparaPegarImagemIntent() {
+        Intent pegarImagemIntent = new Intent(Intent.ACTION_PICK);
+        return pegarImagemIntent.setDataAndType(Uri.parse(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getPath()), "image/*");
     }
 
 
